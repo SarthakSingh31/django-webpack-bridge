@@ -1,0 +1,16 @@
+{
+  "name": "django-webpack-bridge",
+  "version": "0.1.0",
+  "description": "Generates a manifest that can be consumed by django-webpack-bridge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "django",
+    "webpack",
+    "plugin"
+  ],
+  "author": "Sarthak Singh (ss269@uw.edu)",
+  "license": "ISC"
+}
