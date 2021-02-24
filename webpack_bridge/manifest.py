@@ -35,7 +35,7 @@ class TagTranslater:
             if html_tag is None:
                 raise FileExtensionHasNoMapping(bundle_data['ext'])
             else:
-                translated_bundles.push({
+                translated_bundles.append({
                     'ext': bundle_data['ext'],
                     'tag': html_tag
                 })
@@ -78,7 +78,7 @@ class WebpackManifest:
             for bundle_name in self.__manifest['entries'][entry]:
                 bundle_path = self.__manifest['bundles'][bundle_name]
                 bundle_ext = path.splitext(bundle_path)[1][1:]
-                bundle_data_array.push({
+                bundle_data_array.append({
                     'ext': bundle_ext,
                     'path': bundle_path,
                 })
