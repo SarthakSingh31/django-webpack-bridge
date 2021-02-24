@@ -5,7 +5,7 @@ VERSION = '0.1.0'
 
 setup(
     name = 'django-webpack-bridge',
-    packages = ['webpack_bridge'],
+    packages = ['webpack_bridge', 'webpack_bridge/templatetags'],
     version = VERSION,
     description = 'A bridge from Webpack to Django',
     long_description = README,
