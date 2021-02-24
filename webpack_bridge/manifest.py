@@ -90,6 +90,7 @@ class WebpackManifest:
 
 
 class EntrypointResolver:
+    @staticmethod
     def __get_manifest_path(dirs):
         for dir in dirs:
             manifest_path = path.join(dir, LOADER_SETTINGS['manifest_file'])
@@ -123,7 +124,7 @@ class EntrypointResolver:
                 pass
 
         if self.__manifest is None:
-            manifest_path = self.__get_manifest_path(dirs)
+            manifest_path = EntrypointResolver.__get_manifest_path(dirs)
             with open(manifest_path, 'rb') as manifest_data:
                 self.__manifest = WebpackManifest(manifest_data, manifest_path)
                 self.__update_cache()
