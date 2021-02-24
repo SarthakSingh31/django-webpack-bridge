@@ -8,7 +8,7 @@ register = template.Library()
 @register.simple_tag
 def render_webpack_entry(entry, **tag_attrs):
     resolver = EntrypointResolver(settings.STATICFILES_DIRS)
-    bundles = resolver.reslove(entry)
+    bundles = resolver.resolve(entry)
 
     parsed_html = ""
     for entry_bundle in bundles:
