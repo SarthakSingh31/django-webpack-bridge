@@ -118,7 +118,7 @@ class EntrypointResolver:
             cached_manifest = cache.get(self.__cache_tag)
             try:
                 with open(cached_manifest.manifest_path, 'rb') as current_manifest:
-                    if cached_manifest.validate(current_manifest):
+                    if cached_manifest.validate(current_manifest.read()):
                         self.__manifest = cached_manifest
             except FileNotFoundError:
                 pass
@@ -126,7 +126,10 @@ class EntrypointResolver:
         if self.__manifest is None:
             manifest_path = EntrypointResolver.__get_manifest_path(dirs)
             with open(manifest_path, 'rb') as manifest_data:
-                self.__manifest = WebpackManifest(manifest_data, manifest_path)
+                self.__manifest = WebpackManifest(
+                    manifest_data.read(),
+                    manifest_path
+                )
                 self.__update_cache()
 
     def resolve(self, entry):
