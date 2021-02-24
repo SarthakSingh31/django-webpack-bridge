@@ -35,7 +35,10 @@ class TagTranslater:
             if html_tag is None:
                 raise FileExtensionHasNoMapping(bundle_data['ext'])
             else:
-                translated_bundles.push(html_tag)
+                translated_bundles.push({
+                    'ext': bundle_data['ext'],
+                    'tag': html_tag
+                })
         
         return translated_bundles
 
