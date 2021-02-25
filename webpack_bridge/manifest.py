@@ -65,8 +65,8 @@ class WebpackManifest:
     def resolve(self, entry):
         # TODO: Add waiting for compilation here
 
-        if 'error' in self.__manifest:
-            raise WebpackError(self.__manifest['error'])
+        if 'errors' in self.__manifest and len(self.__manifest['errors']) > 0:
+            raise WebpackError(self.__manifest['errors'])
 
         if entry in self.__translated_entries:
             return self.__translated_entries[entry]
@@ -75,8 +75,7 @@ class WebpackManifest:
                 raise WebpackEntryNotFound(entry)
             
             bundle_data_array = []
-            for bundle_name in self.__manifest['entries'][entry]:
-                bundle_path = self.__manifest['bundles'][bundle_name]
+            for bundle_path in self.__manifest['entries'][entry]:
                 bundle_ext = path.splitext(bundle_path)[1][1:]
                 bundle_data_array.append({
                     'ext': bundle_ext,

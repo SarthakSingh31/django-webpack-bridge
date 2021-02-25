@@ -2,7 +2,7 @@
   "name": "django-webpack-bridge",
   "version": "0.1.0",
   "description": "Generates a manifest that can be consumed by django-webpack-bridge",
-  "main": "index.js",
+  "main": "django_bridge/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
