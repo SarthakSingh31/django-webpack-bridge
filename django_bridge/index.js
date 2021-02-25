@@ -34,6 +34,7 @@ class DjangoWebpackBridgePlugin {
       }, () => {
         emitHook(this, compilation);
       });
+      // TODO: This hook is not working
       compilation.hooks.failedModule.tap(pluginName, (_, error) => {
         failHook(this, error);
       });
