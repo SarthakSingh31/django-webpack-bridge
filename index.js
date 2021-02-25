@@ -1,6 +1,6 @@
 const pluginName = 'DjangoWebpackManifestPlugin';
 
-export default class DjangoWebpackManifestPlugin {
+class DjangoWebpackManifestPlugin {
   apply(compiler) {
     compiler.hooks.beforeCompile.tap(pluginName, (compilationParams) => {
       console.log('DjangoWebpackManifestPlugin called in beforeCompile with: ', compilationParams);
@@ -11,3 +11,5 @@ export default class DjangoWebpackManifestPlugin {
     });
   }
 }
+
+module.exports = DjangoWebpackManifestPlugin;
