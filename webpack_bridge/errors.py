@@ -1,9 +1,9 @@
 from webpack_bridge.settings import LOADER_SETTINGS
 
 class WebpackManifestNotFound(Exception):
-    def __init__(_, name, path):
+    def __init__(_, name, paths):
         message = 'Manifest file with name ({}) not found in {}'
-        super().__init__(message.format(name, path))
+        super().__init__(message.format(name, paths))
 
 
 class WebpackEntryNotFound(Exception):

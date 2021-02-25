@@ -1,6 +1,7 @@
 import json
 import hashlib
 from os import path
+import time
 
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.cache import cache
@@ -63,7 +64,18 @@ class WebpackManifest:
         self.__dirty = False
 
     def resolve(self, entry):
-        # TODO: Add waiting for compilation here
+        while 'compiling' in self.__manifest and self.__manifest['compiling']:
+            time.sleep(LOADER_SETTINGS['compiling_poll_duration'])
+            if path.isfile(self.manifest_path):
+                with open(self.manifest_path, 'rb') as current_manifest:
+                    current_manifest = current_manifest.read()
+                    if not self.validate(current_manifest):
+                        print(current_manifest)
+                        try:
+                            self.__manifest = json.loads(current_manifest)
+                            self.__manifest_hash = hash_bytes(current_manifest)
+                        except json.JSONDecodeError:
+                            pass
 
         if 'errors' in self.__manifest and len(self.__manifest['errors']) > 0:
             raise WebpackError(self.__manifest['errors'])
@@ -96,7 +108,7 @@ class EntrypointResolver:
             if path.isfile(manifest_path):
                 return manifest_path
 
-        raise WebpackManifestNotFound(dirs, LOADER_SETTINGS['manifest_file'])
+        raise WebpackManifestNotFound(LOADER_SETTINGS['manifest_file'], dirs)
 
     def __update_cache(self):
         if LOADER_SETTINGS['cache'] and self.__manifest.is_dirty():

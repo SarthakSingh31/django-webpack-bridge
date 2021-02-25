@@ -1,4 +1,4 @@
-const { compilationStart, emitHook, doneHook } = require('./hooks');
+const { compilationStart, emitHook, doneHook, failHook } = require('./hooks');
 
 const pluginName = 'DjangoWebpackBridgePlugin';
 
@@ -33,6 +33,9 @@ class DjangoWebpackBridgePlugin {
         stage: Infinity
       }, () => {
         emitHook(this, compilation);
+      });
+      compilation.hooks.failedModule.tap(pluginName, (_, error) => {
+        failHook(this, error);
       });
     });
 

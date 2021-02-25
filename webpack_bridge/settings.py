@@ -14,6 +14,7 @@ LOADER_SETTINGS = {
         'style':
             '<link rel="stylesheet" type="text/css" href="{path}" {attributes}>',
     },
+    'compiling_poll_duration': 0.5,
 }
 
 if hasattr(settings, 'WEBPACK_MANIFEST_LOADER'):

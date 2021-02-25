@@ -2,7 +2,8 @@ const path = require('path');
 const { writeToFile } = require('./utils');
 
 function compilationStart(bridge) {
-  bridge.compiling = true;
+  bridge.manifest.compiling = true;
+  bridge.manifest.errors = [];
   writeToFile(
     path.join(bridge.options.path, bridge.options.fileName),
     bridge.manifest,
@@ -16,16 +17,24 @@ function emitHook(bridge, compilation) {
       .getFiles()
       .map((fileName) => path.join(bridge.options.publicPath, fileName));
   });
-
-  bridge.manifest.errors = compilation.errors;
 }
 
 function doneHook(bridge) {
-  bridge.compiling = false;
+  bridge.manifest.compiling = false;
   writeToFile(
     path.join(bridge.options.path, bridge.options.fileName),
     bridge.manifest,
   );
 }
 
-module.exports = { compilationStart, emitHook, doneHook };
+function failHook(bridge, error) {
+  console.log("failHook", error);
+  bridge.manifest.compiling = false;
+  bridge.manifest.errors.push(error);
+  writeToFile(
+    path.join(bridge.options.path, bridge.options.fileName),
+    bridge.manifest,
+  );
+}
+
+module.exports = { compilationStart, emitHook, doneHook, failHook };
