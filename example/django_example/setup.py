@@ -6,9 +6,9 @@ setup(
     long_description_content_type="text/markdown",
     author = 'Sarthak Singh',
     author_email = 'ss269@uw.edu',
-    # install_requires=[
-    #     ''
-    # ],
+    install_requires=[
+        'django-webpack-bridge @ file:///django-webpack-bridge',
+    ],
     classifiers = [
         'Programming Language :: Python :: 3 :: Only',
         'Framework :: Django',

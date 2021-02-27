@@ -14,6 +14,9 @@ setup(
     author_email = 'ss269@uw.edu',
     # download_url = todo,
     # url = todo,
+    install_requires=[
+        'Django>=2.0.0',
+    ],
     keywords = ['django', 'webpack'],
     classifiers = [
         'Programming Language :: Python :: 3 :: Only',
