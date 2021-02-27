@@ -17,9 +17,9 @@ services:
       context: .
       target: bundler
     volumes: 
-      - "./example/webpack_example/src:/app/webpack_example"
+      - "./example/webpack_example/src:/app/src"
       - "./django_bridge:/django-webpack-bridge/django_bridge"
       - statics-volume:/app/dist
-    command: node_modules/.bin/webpack --watch --mode development
+    command: "node_modules/.bin/webpack --watch --mode development"
 volumes:
   statics-volume:
