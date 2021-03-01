@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const DjangoBridgePlugin = require('django-webpack-bridge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const Webpack = require('webpack');
 
 module.exports = {
   optimization: {
@@ -16,15 +17,15 @@ module.exports = {
   },
   output: {
     path: path.resolve('./dist'),
-    filename: "[name]-[fullhash].js",
-    chunkFilename: '[id]-[chunkhash].js',
+    filename: "[name]-[contenthash].js",
+    chunkFilename: '[id]-[contenthash].js',
     publicPath: '/',
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        use: 'vue-loader'
+        use: 'vue-loader',
       },
       {
         test: /\.css$/,
@@ -38,9 +39,10 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new DjangoBridgePlugin(),
+    // new Webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name]-[fullhash].css',
-      chunkFilename: '[id]-[chunkhash].css',
+      filename: '[name]-[contenthash].css',
+      chunkFilename: '[id]-[contenthash].css',
     }),
     new VueLoaderPlugin(),
   ],
