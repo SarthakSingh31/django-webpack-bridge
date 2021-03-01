@@ -3,7 +3,7 @@ import hashlib
 from os import path
 import time
 
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.templatetags.static import static
 from django.core.cache import cache
 
 from webpack_bridge.errors import WebpackError, WebpackManifestNotFound,\

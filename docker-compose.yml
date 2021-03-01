@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  django:
+    build:
+      context: .
+      target: app-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./example/django_example/app_example:/app/app_example"
+      - "./example/django_example/django_example:/app/django_example"
+      - "./webpack_bridge:/django-webpack-bridge/webpack_bridge"
+      - statics-volume:/static
+  webpack:
+    build:
+      context: .
+      target: bundler
+    volumes: 
+      - "./example/webpack_example/src:/app/src"
+      - "./django_bridge:/django-webpack-bridge/django_bridge"
+      - statics-volume:/app/dist
+    command: "node_modules/.bin/webpack --watch --mode development"
+volumes:
+  statics-volume:

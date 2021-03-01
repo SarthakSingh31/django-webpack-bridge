@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Django Webpack Bridge Example</title>
+        {% load webpack_bridge %}
+        {% render_webpack_entry 'index' js='defer' %}
+    </head>
+    <body>
+        <div id="vue_root">
+            <index-comp></index-comp>
+        </div>
+    </body>
+</html>
