@@ -12,10 +12,12 @@ from webpack_bridge.settings import LOADER_SETTINGS
 
 MANIFEST_CACHE_TAG = 'manifest'
 
+
 def hash_bytes(bytes):
     md5 = hashlib.md5()
     md5.update(bytes)
     return md5.hexdigest()
+
 
 class TagTranslater:
     def __init__(self):
@@ -33,7 +35,7 @@ class TagTranslater:
                         path=static(bundle_path),
                         attributes='{attributes}'
                     )
-            
+
             if html_tag is None:
                 raise FileExtensionHasNoMapping(
                     bundle_ext,
@@ -44,9 +46,8 @@ class TagTranslater:
                     'ext': bundle_ext,
                     'tag': html_tag
                 })
-        
-        return translated_bundles
 
+        return translated_bundles
 
 
 class WebpackManifest:
@@ -88,7 +89,7 @@ class WebpackManifest:
         else:
             if entry not in self.__manifest['entries']:
                 raise WebpackEntryNotFound(entry)
-            
+
             self.__translated_entries[entry] = \
                 TagTranslater().translate(self.__manifest['entries'][entry])
             self.__dirty = True
@@ -124,7 +125,8 @@ class EntrypointResolver:
             cached_manifest = cache.get(self.__cache_tag)
             if cached_manifest:
                 try:
-                    with open(cached_manifest.manifest_path, 'rb') as current_manifest:
+                    opened_file = open(cached_manifest.manifest_path, 'rb')
+                    with opened_file as current_manifest:
                         if cached_manifest.validate(current_manifest.read()):
                             self.__manifest = cached_manifest
                 except FileNotFoundError:

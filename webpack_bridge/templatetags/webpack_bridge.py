@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 
 register = template.Library()
 
+
 @register.simple_tag
 def render_webpack_entry(entry, **tag_attrs):
     resolver = EntrypointResolver(settings.STATICFILES_DIRS)

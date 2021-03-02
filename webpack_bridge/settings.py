@@ -12,7 +12,8 @@ LOADER_SETTINGS = {
     'group_to_html_tag': {
         'script': '<script src="{path}" {attributes}></script>',
         'style':
-            '<link rel="stylesheet" type="text/css" href="{path}" {attributes}>',
+            '<link rel="stylesheet" type="text/css"'
+            + ' href="{path}" {attributes}>',
     },
     'compiling_poll_duration': 0.5,
 }
