@@ -1,3 +1,4 @@
 from .tag_translater import TestTagTranslater
 from .webpack_manifest import TestWebpackManifest
 from .entrypoint_resolver import TestEntrypointResolver
+from .template_tags import TestRenderWebpackEntry
