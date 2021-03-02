@@ -1,7 +1,7 @@
 from copy import deepcopy
 import json
 from os import path
-from webpack_bridge.settings import LOADER_SETTINGS
+from webpack_bridge.settings import BRIDGE_SETTINGS
 
 from .utils import MOCK_SETTINGS, get_mock_manifest, generate_mocks
 from webpack_bridge.errors import WebpackError, WebpackEntryNotFound
@@ -18,7 +18,7 @@ class TestWebpackManifest(TestCase):
         self.mock_manifest_data = get_mock_manifest()
         self.mock_manifest_path = path.join(
             settings.STATIC_URL,
-            LOADER_SETTINGS['manifest_file']
+            BRIDGE_SETTINGS['manifest_file']
         )
 
     def test_validate(self):

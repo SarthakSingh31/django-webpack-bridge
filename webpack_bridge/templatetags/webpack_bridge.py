@@ -8,6 +8,12 @@ register = template.Library()
 
 @register.simple_tag
 def render_webpack_entry(entry, **tag_attrs):
+    """
+    Renders the html required to import the bundles associated with the
+    'entry' entrypoint.
+    'tag_attrs' can be used to provide attributes for the rendered html.
+    They are grouped by file extension.
+    """
     resolver = EntrypointResolver(settings.STATICFILES_DIRS)
     bundles = resolver.resolve(entry)
 

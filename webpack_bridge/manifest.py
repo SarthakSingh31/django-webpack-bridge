@@ -8,23 +8,32 @@ from django.core.cache import cache
 
 from webpack_bridge.errors import WebpackError, WebpackManifestNotFound,\
     WebpackEntryNotFound, FileExtensionHasNoMapping
-from webpack_bridge.settings import LOADER_SETTINGS
+from webpack_bridge.settings import BRIDGE_SETTINGS
 
 MANIFEST_CACHE_TAG = 'manifest'
 
 
 def hash_bytes(bytes):
+    """Creates a MD5 hash of the 'bytes'"""
     md5 = hashlib.md5()
     md5.update(bytes)
     return md5.hexdigest()
 
 
 class TagTranslater:
+    """
+    A helper class to generate html tags from an array of bundles.
+    """
+
     def __init__(self):
-        self.__group_to_extensions = LOADER_SETTINGS['group_to_extensions']
-        self.__group_to_html_tag = LOADER_SETTINGS['group_to_html_tag']
+        self.__group_to_extensions = BRIDGE_SETTINGS['group_to_extensions']
+        self.__group_to_html_tag = BRIDGE_SETTINGS['group_to_html_tag']
 
     def translate(self, bundles):
+        """
+        Extracts the file extension from bundle paths and generates a html
+        tag to import the bundles.
+        """
         translated_bundles = []
         for bundle_path in bundles:
             bundle_ext = path.splitext(bundle_path)[1][1:]
@@ -51,15 +60,24 @@ class TagTranslater:
 
 
 class WebpackManifest:
+    """
+    Wrapper for webpack manifest data. Provides flags to help with caching
+    and helper methods to resolve 'entries'.
+    """
+
     def __init__(self, manifest_data, path):
-        # Keeps track whether it is cached
-        self.__dirty = True
+        """
+        manifest_data: The data from a manifest.json file.
+        path: The path to the manifest.json file the 'manifest_data' is from.
+        """
+        self.__dirty = True # True means that the cache needs to be updated
         self.__manifest = json.loads(manifest_data)
         self.__manifest_hash = hash_bytes(manifest_data)
         self.manifest_path = path
         self.__translated_entries = {}
 
     def validate(self, manifest_data):
+        # Returns true if the manifest is up to date with 'manifest_data'
         return hash_bytes(manifest_data) == self.__manifest_hash
 
     def is_dirty(self):
@@ -69,8 +87,13 @@ class WebpackManifest:
         self.__dirty = False
 
     def resolve(self, entry):
+        """
+        Resolves a 'entry' to the html tags required to render it.
+        Will wait for the webpack compilation to finish by blocking this
+        thread.
+        """
         while 'compiling' in self.__manifest and self.__manifest['compiling']:
-            time.sleep(LOADER_SETTINGS['compiling_poll_duration'])
+            time.sleep(BRIDGE_SETTINGS['compiling_poll_duration'])
             if path.isfile(self.manifest_path):
                 with open(self.manifest_path, 'rb') as current_manifest:
                     current_manifest = current_manifest.read()
@@ -97,29 +120,37 @@ class WebpackManifest:
 
 
 class EntrypointResolver:
+    """
+    Resolves a entrypoint to the associated bundles and generates html to
+    import them. Also caches the manifest.json and the generated html tags.
+    """
+
     @staticmethod
     def __get_manifest_path(dirs):
         for dir in dirs:
-            manifest_path = path.join(dir, LOADER_SETTINGS['manifest_file'])
+            manifest_path = path.join(dir, BRIDGE_SETTINGS['manifest_file'])
             if path.isfile(manifest_path):
                 return manifest_path
 
-        raise WebpackManifestNotFound(LOADER_SETTINGS['manifest_file'], dirs)
+        raise WebpackManifestNotFound(BRIDGE_SETTINGS['manifest_file'], dirs)
 
     def __update_cache(self):
-        if LOADER_SETTINGS['cache'] and self.__manifest.is_dirty():
+        if BRIDGE_SETTINGS['cache'] and self.__manifest.is_dirty():
+            self.__manifest.set_clean()
             cache.set(
                 self.__cache_tag,
                 self.__manifest,
-                LOADER_SETTINGS['cache_timeout']
+                BRIDGE_SETTINGS['cache_timeout']
             )
-            self.__manifest.set_clean()
 
     def __init__(self, dirs):
+        """
+        dirs: The directories in which to look for the manifest.json file.
+        """
         self.__manifest = None
-        if LOADER_SETTINGS['cache']:
+        if BRIDGE_SETTINGS['cache']:
             self.__cache_tag = '{}.{}'.format(
-                LOADER_SETTINGS['cache_prefix'],
+                BRIDGE_SETTINGS['cache_prefix'],
                 MANIFEST_CACHE_TAG
             )
             cached_manifest = cache.get(self.__cache_tag)
@@ -142,6 +173,9 @@ class EntrypointResolver:
                 self.__update_cache()
 
     def resolve(self, entry):
+        """
+        Wrapper around WebpackManifest.resolve. Adds caching.
+        """
         bundles = self.__manifest.resolve(entry)
         self.__update_cache()
         return bundles
