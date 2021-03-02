@@ -1,4 +1,4 @@
-const { compilationStart, emitHook, doneHook, failHook } = require('./hooks');
+const { compilationStartHook, emitHook, doneHook } = require('./hooks');
 
 const pluginName = 'DjangoWebpackBridgePlugin';
 
@@ -8,6 +8,10 @@ const defaults = {
   fileName: 'manifest.json',
 }
 
+/**
+ * A plguin for Webpack that generates a manifest file intended to
+ * be consumed by django-webpack-bridge.
+ */
 class DjangoWebpackBridgePlugin {
   constructor(options) {
     this.manifest = {};
@@ -24,7 +28,7 @@ class DjangoWebpackBridgePlugin {
     }
 
     compiler.hooks.thisCompilation.tap(pluginName, (_) => {
-      compilationStart(this);
+      compilationStartHook(this);
     });
 
     compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {

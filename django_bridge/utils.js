@@ -1,6 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * A helper function to write the manifest to a file.
+ * @param {string} filePath Location to store the manifest.json to.
+ * @param {object} manifest_data A object representing the manifest.
+ */
 function writeToFile(filePath, manifest_data) {
   const fileDir = path.dirname(filePath);
   if (!fs.existsSync(fileDir)){

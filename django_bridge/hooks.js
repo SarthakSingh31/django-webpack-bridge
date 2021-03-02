@@ -1,7 +1,12 @@
 const path = require('path');
 const { writeToFile } = require('./utils');
 
-function compilationStart(bridge) {
+/**
+ * Sets the manifest to show that the compilation has started.
+ * Updates the manifest file on disk.
+ * @param {DjangoWebpackBridgePlugin} bridge A instance of the bridge plugin
+ */
+function compilationStartHook(bridge) {
   bridge.manifest.compiling = true;
   bridge.manifest.errors = [];
   writeToFile(
@@ -10,6 +15,13 @@ function compilationStart(bridge) {
   );
 }
 
+/**
+ * Records the emited asset or the encounted error into the manifest.
+ * Does not update the manifest file on disk.
+ * @param {DjangoWebpackBridgePlugin} bridge A instance of the bridge plugin
+ * @param {WebpackCompilationObject} compilation 
+ *        https://webpack.js.org/api/compilation-object/
+ */
 function emitHook(bridge, compilation) {
   bridge.manifest.entries = {};
   compilation.entrypoints.forEach((entryObject, entryName) => {
@@ -22,6 +34,11 @@ function emitHook(bridge, compilation) {
   }
 }
 
+/**
+ * Sets the manifest to show that the compilation has finshed.
+ * Updates the manifest file on disk.
+ * @param {DjangoWebpackBridgePlugin} bridge A instance of the bridge plugin
+ */
 function doneHook(bridge) {
   bridge.manifest.compiling = false;
   bridge.manifest.errors = bridge.manifest.errors
@@ -32,4 +49,4 @@ function doneHook(bridge) {
   );
 }
 
-module.exports = { compilationStart, emitHook, doneHook };
+module.exports = { compilationStartHook, emitHook, doneHook };
