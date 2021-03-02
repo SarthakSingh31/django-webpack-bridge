@@ -19,6 +19,6 @@ class WebpackError(Exception):
 
 
 class FileExtensionHasNoMapping(Exception):
-    def __init__(_, ext):
+    def __init__(_, ext, group_to_extensions):
         message = 'File extension \'{}\' has no mapping, available mappings {}'
-        super().__init__(message.format(ext, LOADER_SETTINGS.group_to_extensions))
+        super().__init__(message.format(ext, group_to_extensions))
