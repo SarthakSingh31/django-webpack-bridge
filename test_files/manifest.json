@@ -1,0 +1,20 @@
+{
+    "errors": [],
+    "compiling": false,
+    "entries": {
+        "index": [
+            "index-m876t9o8.js",
+            "vendor-4t4g534y.js"
+        ],
+        "home": [
+            "home-234xz0jk.js",
+            "vendor-4t4g534y.js",
+            "other-home-89m07yfg.css"
+        ],
+        "other": [
+            "other-96g7k0mh.js",
+            "vendor-4t4g534y.js",
+            "other-home-89m07yfg.css"
+        ]
+    }
+}

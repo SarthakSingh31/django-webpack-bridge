@@ -22,22 +22,26 @@ class TagTranslater:
         self.__group_to_extensions = LOADER_SETTINGS['group_to_extensions']
         self.__group_to_html_tag = LOADER_SETTINGS['group_to_html_tag']
 
-    def translate(self, bundle_data_array):
+    def translate(self, bundles):
         translated_bundles = []
-        for bundle_data in bundle_data_array:
+        for bundle_path in bundles:
+            bundle_ext = path.splitext(bundle_path)[1][1:]
             html_tag = None
             for group in self.__group_to_extensions:
-                if bundle_data['ext'] in self.__group_to_extensions[group]:
+                if bundle_ext in self.__group_to_extensions[group]:
                     html_tag = self.__group_to_html_tag[group].format(
-                        path=static(bundle_data['path']),
+                        path=static(bundle_path),
                         attributes='{attributes}'
                     )
             
             if html_tag is None:
-                raise FileExtensionHasNoMapping(bundle_data['ext'])
+                raise FileExtensionHasNoMapping(
+                    bundle_ext,
+                    self.__group_to_extensions[group]
+                )
             else:
                 translated_bundles.append({
-                    'ext': bundle_data['ext'],
+                    'ext': bundle_ext,
                     'tag': html_tag
                 })
         
@@ -70,7 +74,6 @@ class WebpackManifest:
                 with open(self.manifest_path, 'rb') as current_manifest:
                     current_manifest = current_manifest.read()
                     if not self.validate(current_manifest):
-                        print(current_manifest)
                         try:
                             self.__manifest = json.loads(current_manifest)
                             self.__manifest_hash = hash_bytes(current_manifest)
@@ -86,16 +89,8 @@ class WebpackManifest:
             if entry not in self.__manifest['entries']:
                 raise WebpackEntryNotFound(entry)
             
-            bundle_data_array = []
-            for bundle_path in self.__manifest['entries'][entry]:
-                bundle_ext = path.splitext(bundle_path)[1][1:]
-                bundle_data_array.append({
-                    'ext': bundle_ext,
-                    'path': bundle_path,
-                })
-            
             self.__translated_entries[entry] = \
-                TagTranslater().translate(bundle_data_array)
+                TagTranslater().translate(self.__manifest['entries'][entry])
             self.__dirty = True
             return self.__translated_entries[entry]
 
@@ -113,8 +108,8 @@ class EntrypointResolver:
     def __update_cache(self):
         if LOADER_SETTINGS['cache'] and self.__manifest.is_dirty():
             cache.set(
-                self.__manifest,
                 self.__cache_tag,
+                self.__manifest,
                 LOADER_SETTINGS['cache_timeout']
             )
             self.__manifest.set_clean()
@@ -127,12 +122,13 @@ class EntrypointResolver:
                 MANIFEST_CACHE_TAG
             )
             cached_manifest = cache.get(self.__cache_tag)
-            try:
-                with open(cached_manifest.manifest_path, 'rb') as current_manifest:
-                    if cached_manifest.validate(current_manifest.read()):
-                        self.__manifest = cached_manifest
-            except FileNotFoundError:
-                pass
+            if cached_manifest:
+                try:
+                    with open(cached_manifest.manifest_path, 'rb') as current_manifest:
+                        if cached_manifest.validate(current_manifest.read()):
+                            self.__manifest = cached_manifest
+                except FileNotFoundError:
+                    pass
 
         if self.__manifest is None:
             manifest_path = EntrypointResolver.__get_manifest_path(dirs)
