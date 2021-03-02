@@ -84,3 +84,16 @@ The following settings can be passed to `DjangoBridgePlugin`
     fileName: 'defaults to manifest.json',
 }
 ```
+
+## Development
+
+### Running tests
+
+1. Create and activate a python virtual env of your choice (optional).
+2. Run `pip install .`
+3. Run `DJANGO_SETTINGS_MODULE=test_files.settings python -m django test webpack_bridge`
+
+### Running the Demo
+
+1. Run `docker-compose up --build`
+2. Open `localhost:8000`
