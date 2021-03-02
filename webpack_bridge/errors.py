@@ -21,9 +21,12 @@ class WebpackEntryNotFound(Exception):
 class WebpackError(Exception):
     """Passes through any errors raised by webpack"""
 
-    def __init__(_, error):
-        message = 'There was an error in webpack: {}'
-        super().__init__(message.format(error))
+    def __init__(_, errors):
+        error_msg = ""
+        for error in errors:
+            error_msg += error + '\n'
+        message = 'There was an error in webpack:\n{}'
+        super().__init__(message.format(error_msg))
 
 
 class FileExtensionHasNoMapping(Exception):
