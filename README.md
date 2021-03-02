@@ -27,7 +27,6 @@ Creates a bridge from webpack to django.
 
     ```python
     INSTALLED_APPS += [
-        ...
         'webpack_bridge',
     ]
     STATICFILES_DIRS = [
