@@ -7,8 +7,8 @@ Creates a bridge from webpack to django.
 1. Add the packages to `setup.py` and `package.json`.
    1. Both are named `django-webpack-bridge`.
    2. To install from git
-    python: `'django-webpack-bridge @ https://github.com/SarthakSingh31/django-webpack-bridge/tarball/master'`
-    nodejs: `"django-webpack-bridge": "https://github.com/SarthakSingh31/django-webpack-bridge.git"`
+      1. python: `'django-webpack-bridge @ https://github.com/SarthakSingh31/django-webpack-bridge/tarball/master'`
+      2. nodejs: `"django-webpack-bridge": "https://github.com/SarthakSingh31/django-webpack-bridge.git"`
 2. Add the plugin to `webpack.config.js`
 
     ```js
