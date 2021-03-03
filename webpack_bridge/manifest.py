@@ -70,7 +70,7 @@ class WebpackManifest:
         manifest_data: The data from a manifest.json file.
         path: The path to the manifest.json file the 'manifest_data' is from.
         """
-        self.__dirty = True # True means that the cache needs to be updated
+        self.__dirty = True  # True means that the cache needs to be updated
         self.__manifest = json.loads(manifest_data)
         self.__manifest_hash = hash_bytes(manifest_data)
         self.manifest_path = path

@@ -1,0 +1,45 @@
+name: Django Webpack Bridge Python
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.9]
+        django-version: [2.0.*, 2.1.*, 2.2.*, 3.0.*, 3.1.*]
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v2
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('setup.py') }}
+      - name: Install Django Version ${{ matrix.django-version }}
+        run: python -m pip install 'Django==${{ matrix.django-version }}'
+      - name: Install dependencies
+        run: |
+          python -m pip install .
+          pip install pycodestyle
+      - name: Lint with pycodestyle
+        run: pycodestyle webpack_bridge
+      - name: Run Tests
+        run: DJANGO_SETTINGS_MODULE=test_files.settings python -m django test webpack_bridge
+
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}

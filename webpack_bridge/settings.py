@@ -1,7 +1,7 @@
 from django.conf import settings
 
 # BRIDGE_SETTINGS
-# 
+#
 # 'group_to_extensions' and 'group_to_html_tag' combine to create a
 # multi-key map from a group of file extensions to a html tag. Eg.
 # (js, jsx) -> <script src="{path}" {attributes}></script>
