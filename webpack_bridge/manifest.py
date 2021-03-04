@@ -3,8 +3,9 @@ import hashlib
 from os import path
 import time
 
-from django.templatetags.static import static
 from django.core.cache import cache
+from django.templatetags.static import static
+from django.utils.html import format_html
 
 from webpack_bridge.errors import WebpackError, WebpackManifestNotFound,\
     WebpackEntryNotFound, FileExtensionHasNoMapping
@@ -40,7 +41,8 @@ class TagTranslater:
             html_tag = None
             for group in self.__group_to_extensions:
                 if bundle_ext in self.__group_to_extensions[group]:
-                    html_tag = self.__group_to_html_tag[group].format(
+                    html_tag = format_html(
+                        self.__group_to_html_tag[group],
                         path=static(bundle_path),
                         attributes='{attributes}'
                     )
