@@ -4,13 +4,17 @@
 
 Creates a bridge from webpack to django.
 
+## Supported Versions
+Django >= 2.1
+Webpack >= 4.44.2
+
 ## How to Use
 
 1. Add the packages to `setup.py` and `package.json`.
-   1. Both are named `django-webpack-bridge`.
+   1. Unimplemented: Add `django-webpack-bridge` to install from public registries.
    2. To install from git
-      1. python: `'django-webpack-bridge @ https://github.com/SarthakSingh31/django-webpack-bridge/tarball/master'`
-      2. nodejs: `"django-webpack-bridge": "https://github.com/SarthakSingh31/django-webpack-bridge.git"`
+      1. python: `'django-webpack-bridge @ https://github.com/uw-it-aca/django-webpack-bridge/tarball/master'`
+      2. nodejs: `"django-webpack-bridge": "https://github.com/uw-it-aca/django-webpack-bridge.git"`
 2. Add the plugin to `webpack.config.js`
 
     ```js
