@@ -2,15 +2,23 @@
   "name": "django-webpack-bridge",
   "version": "0.1.0",
   "description": "Generates a manifest that can be consumed by django-webpack-bridge",
+  "homepage": "https://github.com/uw-it-aca/django-webpack-bridge",
   "main": "django_bridge/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "peerDependencies": {
+    "webpack": ">=4.44.2"
   },
   "keywords": [
     "django",
     "webpack",
     "plugin"
   ],
+  "files": [
+    "django_bridge"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uw-it-aca/django-webpack-bridge.git"
+  },
   "author": "Sarthak Singh (ss269@uw.edu)",
   "license": "ISC"
 }

@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 const { compilationStartHook, emitHook, doneHook } = require('./hooks');
 
 const pluginName = 'DjangoWebpackBridgePlugin';
@@ -31,14 +33,18 @@ class DjangoWebpackBridgePlugin {
       compilationStartHook(this);
     });
 
-    compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
-      compilation.hooks.processAssets.tap({
-        name: pluginName,
-        stage: Infinity
-      }, () => {
-        emitHook(this, compilation);
+    if (webpack.version.startsWith('4')) {
+      compiler.hooks.emit.tap(pluginName, (compilation) => emitHook(this, compilation));
+    } else {
+      compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
+        compilation.hooks.processAssets.tap({
+          name: pluginName,
+          stage: Infinity
+        }, () => {
+          emitHook(this, compilation);
+        });
       });
-    });
+    }
 
     compiler.hooks.done.tap(pluginName, (_) => {
       doneHook(this);

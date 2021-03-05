@@ -7,7 +7,7 @@ COPY example/django_example/setup.py /app/
 RUN mkdir /django-webpack-bridge
 COPY webpack_bridge /django-webpack-bridge/webpack_bridge
 COPY README.md /django-webpack-bridge/
-COPY setup.py /django-webpack-bridge/
+COPY pyproject.toml /django-webpack-bridge/
 
 WORKDIR /app
 RUN pip install .
@@ -22,7 +22,8 @@ COPY example/webpack_example/package.json /app/
 RUN mkdir /django-webpack-bridge
 COPY django_bridge /django-webpack-bridge/django_bridge
 COPY package.json /django-webpack-bridge/
-COPY .npmignore /django-webpack-bridge/
+
+ENV NODE_PATH=/app/node_modules
 
 WORKDIR /app
 RUN npm install .

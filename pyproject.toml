@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "django-webpack-bridge"
+version = "0.1.0"
+description = "A bridge from Webpack to Django"
+authors = ["UW-IT AXDD <aca-it@uw.edu>"]
+keywords = ["django", "webpack"]
+readme = "README.md"
+homepage = "https://github.com/uw-it-aca/django-webpack-bridge"
+repository = "https://github.com/uw-it-aca/django-webpack-bridge"
+packages = [
+    { include = "webpack_bridge" },
+    { include = "webpack_bridge/templatetags" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+    "Framework :: Django",
+    "Environment :: Web Environment",
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+Django = ">=2.0.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
