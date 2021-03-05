@@ -1,5 +1,7 @@
 # Django Webpack Bridge
 
+[![Test, Publish](https://github.com/uw-it-aca/django-webpack-bridge/actions/workflows/cicd.yml/badge.svg)](https://github.com/uw-it-aca/django-webpack-bridge/actions/workflows/cicd.yml)
+
 Creates a bridge from webpack to django.
 
 ## How to Use
