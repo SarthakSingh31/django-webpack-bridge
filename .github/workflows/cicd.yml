@@ -38,6 +38,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install poetry
+        run: pip install poetry~=1.1
+      - name: Build Package
+        run: poetry build
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
