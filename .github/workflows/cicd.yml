@@ -44,6 +44,8 @@ jobs:
           python-version: 3.9
       - name: Install poetry
         run: pip install poetry~=1.1
+      - name: Set Python package version to ${GITHUB_REF##*/v}
+        run: poetry version ${GITHUB_REF##*/v}
       - name: Build Package
         run: poetry build
       - name: Publish a Python distribution to PyPI
@@ -56,6 +58,8 @@ jobs:
           node-version: '14'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
+      - name: Set Node package version to ${GITHUB_REF##*/v}
+        run: npm version ${GITHUB_REF##*/v}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPMJS_API_TOKEN }}

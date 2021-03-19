@@ -1,21 +1,12 @@
 # Django Webpack Bridge
 
-[![Test, Publish](https://github.com/uw-it-aca/django-webpack-bridge/actions/workflows/cicd.yml/badge.svg)](https://github.com/uw-it-aca/django-webpack-bridge/actions/workflows/cicd.yml)
+[![Test, Publish](https://github.com/uw-it-aca/django-webpack-bridge/actions/workflows/cicd.yml/badge.svg)](https://github.com/uw-it-aca/django-webpack-bridge/actions/workflows/cicd.yml) [![PyPI](https://img.shields.io/pypi/v/django-webpack-bridge)](https://pypi.org/project/django-webpack-bridge/) [![npm](https://img.shields.io/npm/v/django-webpack-bridge)](https://www.npmjs.com/package/django-webpack-bridge) ![PyPI - Django Version](https://img.shields.io/pypi/djversions/django-webpack-bridge) ![npm peer dependency version](https://img.shields.io/npm/dependency-version/django-webpack-bridge/peer/webpack) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-webpack-bridge) ![PyPI - License](https://img.shields.io/pypi/l/django-webpack-bridge)
 
 Creates a bridge from webpack to django.
 
-## Supported Versions
-
-Django >= 2.1
-Webpack >= 4.44.2
-
 ## How to Use
 
-1. Add the packages to `setup.py` and `package.json`.
-   1. Unimplemented: Add `django-webpack-bridge` to install from public registries.
-   2. To install from git
-      1. python: `'django-webpack-bridge @ https://github.com/uw-it-aca/django-webpack-bridge/tarball/master'`
-      2. nodejs: `"django-webpack-bridge": "https://github.com/uw-it-aca/django-webpack-bridge.git"`
+1. Add `django-webpack-bridge` to `setup.py` or `pyproject.toml`, and `package.json`.
 2. Add the plugin to `webpack.config.js`
 
     ```js
