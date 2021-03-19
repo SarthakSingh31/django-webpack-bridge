@@ -20,5 +20,5 @@
     "url": "https://github.com/uw-it-aca/django-webpack-bridge.git"
   },
   "author": "Sarthak Singh (ss269@uw.edu)",
-  "license": "ISC"
+  "license": "APACHE-2.0"
 }
