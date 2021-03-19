@@ -6,7 +6,7 @@ Creates a bridge from webpack to django.
 
 ## How to Use
 
-1. Add `django-webpack-bridge` to `setup.py/pyproject.toml` and `package.json`.
+1. Add `django-webpack-bridge` to `setup.py` or `pyproject.toml`, and `package.json`.
 2. Add the plugin to `webpack.config.js`
 
     ```js
