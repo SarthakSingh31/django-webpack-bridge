@@ -53,15 +53,13 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-      - name: Reset Repo
-        run: git reset --hard
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
       - name: Set Node package version to ${{github.ref}}
-        run: npm version ${GITHUB_REF##*/v}
+        run: npm version ${GITHUB_REF##*/v} --no-git-tag-version
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPMJS_API_TOKEN }}
