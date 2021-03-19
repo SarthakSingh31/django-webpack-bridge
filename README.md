@@ -5,6 +5,7 @@
 Creates a bridge from webpack to django.
 
 ## Supported Versions
+
 Django >= 2.1
 Webpack >= 4.44.2
 
