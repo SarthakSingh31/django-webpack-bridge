@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from .utils import MOCK_SETTINGS, get_mock_manifest, generate_mocks
 from webpack_bridge.templatetags.webpack_bridge import render_webpack_entry
 
